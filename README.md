@@ -63,4 +63,4 @@ Cloudflare Workers，通过 `wrangler` CLI 手动部署：
 bun run deploy
 ```
 
-Worker 名为 `wutz-dev`，域名 `wutz.dev` 需要在 Cloudflare 侧绑定自定义域（wrangler.toml 里未写 routes）。
+Worker 名为 `wutz-dev`，自定义域 `wutz.dev` 已在 wrangler.toml 的 `routes` 里声明（`custom_domain = true`），部署时自动绑定。
