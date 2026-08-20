@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  /* 同一家族里 netpath 用青、这里用靛，作为几个站点的入口色 */
+  --color-brand-50: oklch(0.97 0.015 268);
+  --color-brand-100: oklch(0.93 0.04 268);
+  --color-brand-200: oklch(0.87 0.06 268);
+  --color-brand-500: oklch(0.6 0.13 266);
+  --color-brand-600: oklch(0.52 0.14 267);
+  --color-brand-700: oklch(0.44 0.13 269);
+}
+
+html {
+  /* 横屏转竖屏时 iOS 会自作主张放大字号 */
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 兜底：任何一处算漏的宽度都不许把整页撑出屏幕 */
+body {
+  overflow-x: clip;
+}
