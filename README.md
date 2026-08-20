@@ -24,6 +24,9 @@ bun run typecheck
 
 ```
 wutz.dev/
+├── public/
+│   ├── logo.svg           # 本站 favicon
+│   └── logos/             # 各项目 logo，见下方「logo 从哪来」
 ├── src/
 │   ├── lib/
 │   │   └── projects.ts    # 站点清单（唯一需要维护的内容文件）
@@ -44,16 +47,33 @@ wutz.dev/
 
 ```ts
 {
-  name: 'Foo',              // 卡片标题，首字母会用作左侧色块
+  name: 'Foo',              // 卡片标题
   tagline: '一句话定位',      // 标题下方的小字
   href: 'https://foo.wutz.dev/',
   label: 'foo.wutz.dev',    // 卡片底部的域名/仓库
+  logo: '/logos/foo.svg',   // 顺手把该站的 logo.svg 复制到 public/logos/
   summary: '这个项目覆盖什么。',
   tags: ['标签1', '标签2'],
 }
 ```
 
-两组的色块颜色不同（教程用 brand 靛色，工具用深灰），由 `index.tsx` 里 `Section` 的 `accent` 决定，无需逐条配置。
+## logo 从哪来
+
+`public/logos/*.svg` 是各站点自己 `public/logo.svg`（password 是仓库根目录的
+`logo.svg`）的副本，本站自带一份，避免首屏要等 7 个跨站请求。**改了那边记得同步过来**：
+
+```bash
+for s in netpath storpath kubepath rlforge storplan; do
+  cp ~/Projects/wutz/$s/public/logo.svg public/logos/$s.svg
+done
+cp ~/Projects/wutz/password/logo.svg public/logos/password.svg
+```
+
+`mmapi` 是纯仓库、没有站点，它的 logo 只存在于本项目。
+
+各站 logo 统一是「品牌色圆角方块 + 白色几何字形」的 32×32 SVG，配色取自各站
+`styles.css` 里 `--color-brand-600` 的实际 hex（storplan 没有 brand token，取站内用的
+`blue-600`）。password 用的是它自己原有的盾牌图标，是唯一一个透明底、不带色块的。
 
 ## 部署
 

@@ -19,6 +19,7 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
+      { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' },
       { rel: 'canonical', href: 'https://wutz.dev/' },
     ],
   }),
@@ -32,7 +33,8 @@ function RootLayout() {
         <HeadContent />
       </head>
       <body className="min-h-screen bg-gray-50 font-sans text-gray-900 antialiased">
-        <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-16">
+        {/* 大屏放宽到 6xl 并让卡片走双列，窄屏仍是 3xl 单列的阅读宽度 */}
+        <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-16 lg:max-w-6xl lg:px-8 lg:py-20">
           <Outlet />
 
           <footer className="mt-14 border-t border-gray-200 pt-6 text-xs text-gray-400 sm:mt-20">

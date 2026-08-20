@@ -13,71 +13,65 @@ function GitHubMark() {
   )
 }
 
-function ProjectCard({ project, accent }: { project: Project; accent: 'brand' | 'neutral' }) {
+function ProjectCard({ project }: { project: Project }) {
   return (
     <li>
+      {/*
+       * h-full + flex-col：大屏双列下同一行的两张卡摘要长度不同，
+       * 标签和域名靠 mt-auto 压到卡片底部，横向才对得齐。
+       */}
       <a
         href={project.href}
         target="_blank"
         rel="noreferrer"
-        className="group block rounded-xl border border-gray-200 bg-white p-4 transition hover:border-brand-200 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 sm:p-5"
+        className="group flex h-full gap-3.5 rounded-xl border border-gray-200 bg-white p-4 transition hover:border-brand-200 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 sm:p-5"
       >
-        <div className="flex items-start gap-3.5">
-          <span
-            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white ${
-              accent === 'brand' ? 'bg-brand-600' : 'bg-gray-800'
-            }`}
-            aria-hidden="true"
-          >
-            {project.name.charAt(0).toUpperCase()}
-          </span>
+        <img
+          src={project.logo}
+          alt=""
+          width={40}
+          height={40}
+          className="h-10 w-10 shrink-0"
+          decoding="async"
+        />
 
-          <div className="min-w-0 flex-1">
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <h3 className="text-base font-bold tracking-tight transition group-hover:text-brand-700">
-                  {project.name}
-                </h3>
-                <p className="mt-0.5 text-xs text-gray-400">{project.tagline}</p>
-              </div>
-              <span
-                aria-hidden="true"
-                className="inline-block shrink-0 text-sm text-gray-300 transition group-hover:translate-x-0.5 group-hover:text-brand-500"
-              >
-                ↗
-              </span>
+        <div className="flex min-w-0 flex-1 flex-col">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h3 className="text-base font-bold tracking-tight transition group-hover:text-brand-700">
+                {project.name}
+              </h3>
+              <p className="mt-0.5 text-xs text-gray-400">{project.tagline}</p>
             </div>
-
-            <p className="mt-2.5 text-sm leading-relaxed text-gray-600">{project.summary}</p>
-
-            <div className="mt-3 flex flex-wrap items-center gap-1.5">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-md bg-gray-100 px-1.5 py-0.5 text-[11px] text-gray-500"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <p className="mt-3 font-mono text-[11px] text-gray-400">{project.label}</p>
+            <span
+              aria-hidden="true"
+              className="inline-block shrink-0 text-sm text-gray-300 transition group-hover:translate-x-0.5 group-hover:text-brand-500"
+            >
+              ↗
+            </span>
           </div>
+
+          <p className="mt-2.5 text-sm leading-relaxed text-gray-600">{project.summary}</p>
+
+          <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-3">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-md bg-gray-100 px-1.5 py-0.5 text-[11px] text-gray-500"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <p className="mt-3 font-mono text-[11px] text-gray-400">{project.label}</p>
         </div>
       </a>
     </li>
   )
 }
 
-function Section({
-  title,
-  projects,
-  accent,
-}: {
-  title: string
-  projects: Project[]
-  accent: 'brand' | 'neutral'
-}) {
+function Section({ title, projects }: { title: string; projects: Project[] }) {
   return (
     <section className="mt-10 sm:mt-14">
       <div className="flex items-baseline gap-2">
@@ -85,9 +79,9 @@ function Section({
         <span className="text-xs text-gray-300">{projects.length}</span>
       </div>
 
-      <ul className="mt-3.5 space-y-3">
+      <ul className="mt-3.5 grid gap-3 lg:grid-cols-2 lg:gap-4">
         {projects.map((project) => (
-          <ProjectCard key={project.href} project={project} accent={accent} />
+          <ProjectCard key={project.href} project={project} />
         ))}
       </ul>
     </section>
@@ -99,10 +93,10 @@ function Home() {
     <>
       <header className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
             wutz<span className="text-brand-600">.dev</span>
           </h1>
-          <p className="mt-2 text-sm text-gray-500 sm:text-base">
+          <p className="mt-2 text-sm text-gray-500 sm:text-base lg:mt-3 lg:text-lg">
             写一些系统基础设施方向的教程和小工具。
           </p>
         </div>
@@ -119,8 +113,8 @@ function Home() {
         </a>
       </header>
 
-      <Section title="教程" projects={tutorials} accent="brand" />
-      <Section title="工具" projects={tools} accent="neutral" />
+      <Section title="教程" projects={tutorials} />
+      <Section title="工具" projects={tools} />
     </>
   )
 }
