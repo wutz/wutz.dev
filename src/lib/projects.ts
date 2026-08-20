@@ -85,12 +85,12 @@ export const tools: Project[] = [
   },
   {
     name: 'Password',
-    tagline: 'Secure Password Generator',
+    tagline: '安全密码生成器',
     href: 'https://password.wutz.dev/',
     label: 'password.wutz.dev',
     logo: '/logos/password.svg',
     summary:
-      '浏览器内生成强随机密码，随机数来自 window.crypto。长度最长 128 位，大小写/数字/符号可分别开关，可排除 i、l、1、L、o、0、O 这类易混字符，带强度指示和一键复制，支持深浅色与五种界面语言。',
+      '浏览器内生成强随机密码，随机数来自 window.crypto。长度最长 64 位，大小写/数字/符号可分别开关，可排除 i、l、1、o、0、I、L、O 这类易混字符，带强度指示和一键复制，支持五种界面语言。',
     tags: ['密码', 'WebCrypto', '纯前端'],
   },
 ]
