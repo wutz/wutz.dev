@@ -1,4 +1,6 @@
 name = "wutz-dev"
+# 保留 workers.dev 预览地址,与自定义域 wutz.dev 并行可用
+workers_dev = true
 compatibility_date = "2026-06-03"
 compatibility_flags = ["nodejs_compat"]
 main = "@tanstack/react-start/server-entry"

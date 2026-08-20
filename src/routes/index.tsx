@@ -19,67 +19,77 @@ function ProjectCard({ project }: { project: Project }) {
       {/*
        * h-full + flex-col：大屏双列下同一行的两张卡摘要长度不同，
        * 标签和域名靠 mt-auto 压到卡片底部，横向才对得齐。
+       * 卡片本体不加阴影——全站唯一的投影只给 logo(见 styles.css)。
        */}
       <a
         href={project.href}
         target="_blank"
         rel="noreferrer"
-        className="group flex h-full gap-3.5 rounded-xl border border-gray-200 bg-white p-4 transition hover:border-brand-200 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 sm:p-5"
+        className="group flex h-full gap-4 rounded-[18px] border border-hairline bg-canvas p-5 transition hover:border-brand-500/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 active:scale-[0.98] sm:p-6"
       >
+        {/* 各站点 logo 按 DESIGN.md 的 product render 处理:搁在表面上的产物才有投影 */}
         <img
           src={project.logo}
           alt=""
-          width={40}
-          height={40}
-          className="h-10 w-10 shrink-0"
+          width={44}
+          height={44}
+          className="mt-0.5 h-11 w-11 shrink-0 rounded-[10px] shadow-render"
           decoding="async"
         />
 
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <h3 className="text-base font-bold tracking-tight transition group-hover:text-brand-700">
+              <h3 className="text-[17px] font-semibold tracking-[-0.4px] transition group-hover:text-brand-600">
                 {project.name}
               </h3>
-              <p className="mt-0.5 text-xs text-gray-400">{project.tagline}</p>
+              <p className="mt-0.5 text-sm text-ink-mute">{project.tagline}</p>
             </div>
             <span
               aria-hidden="true"
-              className="inline-block shrink-0 text-sm text-gray-300 transition group-hover:translate-x-0.5 group-hover:text-brand-500"
+              className="inline-block shrink-0 text-sm text-ink-mute/60 transition group-hover:translate-x-0.5 group-hover:text-brand-600"
             >
               ↗
             </span>
           </div>
 
-          <p className="mt-2.5 text-sm leading-relaxed text-gray-600">{project.summary}</p>
+          <p className="mt-3 text-[15px] leading-[1.65] text-ink-soft">{project.summary}</p>
 
-          <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-3">
+          <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-4">
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-md bg-gray-100 px-1.5 py-0.5 text-[11px] text-gray-500"
+                className="rounded-full bg-parchment px-2.5 py-[3px] text-xs leading-none text-ink-mute"
               >
                 {tag}
               </span>
             ))}
           </div>
 
-          <p className="mt-3 font-mono text-[11px] text-gray-400">{project.label}</p>
+          <p className="mt-3 font-mono text-xs text-ink-mute">{project.label}</p>
         </div>
       </a>
     </li>
   )
 }
 
-function Section({ title, projects }: { title: string; projects: Project[] }) {
+function Section({
+  title,
+  projects,
+  className = 'mt-14 sm:mt-16 lg:mt-20',
+}: {
+  title: string
+  projects: Project[]
+  className?: string
+}) {
   return (
-    <section className="mt-10 sm:mt-14">
-      <div className="flex items-baseline gap-2">
-        <h2 className="text-xs font-semibold tracking-[0.18em] text-gray-400 uppercase">{title}</h2>
-        <span className="text-xs text-gray-300">{projects.length}</span>
+    <section className={className}>
+      <div className="flex items-baseline gap-2.5">
+        <h2 className="text-[21px] font-semibold tracking-[0.2px]">{title}</h2>
+        <span className="text-sm text-ink-mute">{projects.length}</span>
       </div>
 
-      <ul className="mt-3.5 grid gap-3 lg:grid-cols-2 lg:gap-4">
+      <ul className="mt-6 grid gap-5 lg:grid-cols-2 lg:gap-6">
         {projects.map((project) => (
           <ProjectCard key={project.href} project={project} />
         ))}
@@ -91,30 +101,42 @@ function Section({ title, projects }: { title: string; projects: Project[] }) {
 function Home() {
   return (
     <>
-      <header className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-            wutz<span className="text-brand-600">.dev</span>
-          </h1>
-          <p className="mt-2 text-sm text-gray-500 sm:text-base lg:mt-3 lg:text-lg">
-            写一些系统基础设施方向的教程和小工具。
-          </p>
+      <div className="mx-auto max-w-3xl px-5 sm:px-8 lg:max-w-6xl lg:px-10">
+        <header className="flex items-start justify-between gap-4 pt-14 sm:pt-16 lg:pt-24">
+          <div className="min-w-0">
+            {/* 大标题走 DESIGN.md 的 display 规格:600 字重 + 负字距 */}
+            <h1 className="text-[36px] font-semibold leading-[1.1] tracking-[-0.4px] sm:text-[44px] lg:text-[52px]">
+              wutz<span className="text-brand-600">.dev</span>
+            </h1>
+            <p className="mt-3 text-lg leading-relaxed text-ink-mute sm:text-xl">
+              写一些系统基础设施方向的教程和小工具。
+            </p>
+          </div>
+
+          <a
+            href="https://github.com/wutz"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+            title="GitHub"
+            className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink-mute transition hover:bg-parchment hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 active:scale-95"
+          >
+            <GitHubMark />
+          </a>
+        </header>
+
+        <Section title="教程" projects={tutorials} />
+      </div>
+
+      {/*
+       * 工具区整体换到米白底:DESIGN.md 的节奏做法——用表面色变化代替分隔线,
+       * 与页脚的米白连成一片,页面收尾在同一个浅色区域里。
+       */}
+      <div className="mt-14 bg-parchment sm:mt-20">
+        <div className="mx-auto max-w-3xl px-5 py-14 sm:px-8 sm:py-16 lg:max-w-6xl lg:px-10 lg:py-20">
+          <Section title="工具" projects={tools} className="" />
         </div>
-
-        <a
-          href="https://github.com/wutz"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="GitHub"
-          title="GitHub"
-          className="shrink-0 rounded-lg p-2 text-gray-400 transition hover:bg-white hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
-        >
-          <GitHubMark />
-        </a>
-      </header>
-
-      <Section title="教程" projects={tutorials} />
-      <Section title="工具" projects={tools} />
+      </div>
     </>
   )
 }

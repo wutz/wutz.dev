@@ -1,13 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  /* 同一家族里 netpath 用青、这里用靛，作为几个站点的入口色 */
+  /*
+   * 品牌交互色。全站唯一的强调色,角色等价于 DESIGN.md 里的 Action Blue;
+   * 色相仍用靛蓝:同一家族里 netpath 用青、这里用靛,作为各站点的入口色。
+   */
   --color-brand-50: oklch(0.97 0.015 268);
   --color-brand-100: oklch(0.93 0.04 268);
   --color-brand-200: oklch(0.87 0.06 268);
   --color-brand-500: oklch(0.6 0.13 266);
   --color-brand-600: oklch(0.52 0.14 267);
   --color-brand-700: oklch(0.44 0.13 269);
+
+  /* 表面与文本色,取自 DESIGN.md:纯白画布 / 米白 / 珍珠白 / 墨色 / 发丝线 */
+  --color-canvas: #ffffff;
+  --color-parchment: #f5f5f7;
+  --color-pearl: #fafafc;
+  --color-ink: #1d1d1f;
+  --color-ink-soft: #333333;
+  --color-ink-mute: #7a7a7a;
+  --color-hairline: #e0e0e0;
+
+  /* 苹果平台上 system-ui 即 SF Pro + 苹方,其它平台由各系统默认无衬线兜底 */
+  --font-sans: -apple-system, blinkmacsystemfont, system-ui, 'Segoe UI', sans-serif;
+
+  /* 全站唯一的投影(按 DESIGN.md 缩小):只给"搁在表面上的产物"——站点 logo——用,
+   * 卡片和按钮一律不加阴影。 */
+  --shadow-render: 0 3px 12px rgba(0, 0, 0, 0.16);
 }
 
 html {
@@ -15,7 +34,11 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* 兜底：任何一处算漏的宽度都不许把整页撑出屏幕 */
+/* 兜底:任何一处算漏的宽度都不许把整页撑出屏幕 */
 body {
   overflow-x: clip;
+}
+
+::selection {
+  background-color: var(--color-brand-200);
 }
