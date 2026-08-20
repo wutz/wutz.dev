@@ -22,7 +22,7 @@ export type Project = {
 export const tutorials: Project[] = [
   {
     name: 'Netpath',
-    tagline: '系统与集群网络成长路径',
+    tagline: '网络运维工程师成长路径',
     href: 'https://netpath.wutz.dev/',
     label: 'netpath.wutz.dev',
     logo: '/logos/netpath.svg',
