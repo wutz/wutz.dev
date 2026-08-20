@@ -32,19 +32,19 @@ function RootLayout() {
       <head>
         <HeadContent />
       </head>
-      <body className="min-h-screen bg-gray-50 font-sans text-gray-900 antialiased">
-        {/* 大屏放宽到 6xl 并让卡片走双列，窄屏仍是 3xl 单列的阅读宽度 */}
+      <body className="min-h-screen bg-canvas-soft font-sans text-ink antialiased">
+        {/* 大屏放宽到 6xl 并让卡片走双列,窄屏仍是 3xl 单列的阅读宽度 */}
         <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-16 lg:max-w-6xl lg:px-8 lg:py-20">
           <Outlet />
 
-          <footer className="mt-14 border-t border-gray-200 pt-6 text-xs text-gray-400 sm:mt-20">
+          <footer className="mt-14 border-t border-hairline pt-6 text-xs text-mute sm:mt-20">
             <p>
               wutz.dev · 站点与工具的源码都在{' '}
               <a
                 href="https://github.com/wutz"
                 target="_blank"
                 rel="noreferrer"
-                className="text-gray-500 underline underline-offset-2 transition hover:text-brand-600"
+                className="text-body underline underline-offset-2 transition hover:text-link"
               >
                 GitHub
               </a>
