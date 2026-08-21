@@ -13,6 +13,8 @@ export type Project = {
   logo: string
   summary: string
   tags: string[]
+  /** 教程的讲数。首屏那行统计要按它加总，别再从 summary 里抠数字 */
+  lectures?: number
 }
 
 /**
@@ -29,6 +31,7 @@ export const tutorials: Project[] = [
     summary:
       '54 讲、六个阶段。从带宽/时延/PPS、ARP、VLAN、子网这些基本功，走到 RDMA、PCIe、NVLink、InfiniBand、RoCEv2 无损以太网，再到 Fat-Tree 与 rail-optimized 拓扑、Spine-Leaf 端口与布线规划、K8s 容器网络、GPUDirect 与 NVMe-oF。',
     tags: ['网络', 'RDMA', 'InfiniBand', 'RoCEv2', 'K8s 网络'],
+    lectures: 54,
   },
   {
     name: 'Storpath',
@@ -39,6 +42,7 @@ export const tutorials: Project[] = [
     summary:
       '36 讲。块/文件/对象的语义差异、协议、副本与纠删码的取舍、硬件与磁盘 I/O、容量与性能规划，再到 Ceph 架构与 Day-2 运维、GPFS / Storage Scale、K8s 存储（PV/PVC/SC/CSI）以及 Weka、VastData、XSKY 等商业方案。',
     tags: ['存储', 'Ceph', 'GPFS', '纠删码', 'CSI'],
+    lectures: 36,
   },
   {
     name: 'Kubepath',
@@ -49,6 +53,7 @@ export const tutorials: Project[] = [
     summary:
       '36 讲。控制面原理与 kubectl apply 全流程、声明式控制器、工作负载对象、Pod/Service/DNS 网络模型、集群选型与容量规划、etcd 磁盘验证、Cilium 与 eBPF、CSI、GPU Operator 与设备插件、AI 负载调度（Volcano / Kueue / gang scheduling）、RBAC 与虚拟集群多租户。',
     tags: ['Kubernetes', 'Cilium', 'GPU', '调度', '多租户'],
+    lectures: 36,
   },
   {
     name: 'RLforge',
@@ -59,6 +64,7 @@ export const tutorials: Project[] = [
     summary:
       '27 讲，终点是在一张 32GB 卡上手写自己的 GRPO，把 Qwen3-0.6B 的数学正确率练上去，再用 TRL 复现同一件事做对照。路上覆盖 Blackwell（sm_120）环境与工具链、显存预算、vLLM 推理、PPO → GRPO 原理、rollout 与 reward 的代码、GRPO loss 内部细节、训练曲线怎么读、以及各种翻车现场的排查。',
     tags: ['强化学习', 'GRPO', 'vLLM', 'LLM 训练'],
+    lectures: 27,
   },
 ]
 
@@ -94,3 +100,35 @@ export const tools: Project[] = [
     tags: ['密码', 'WebCrypto', '纯前端'],
   },
 ]
+
+/**
+ * 页面分段。除 mono eyebrow 之外再给每段一个 display 级标题和一句引子——
+ * DESIGN.md 的 band 结构是 eyebrow + display-lg + body lead，
+ * 标题按品牌语气写成句式小写、以句号收尾。
+ */
+export const sections: {
+  eyebrow: string
+  headline: string
+  lead: string
+  projects: Project[]
+}[] = [
+  {
+    eyebrow: 'tutorials',
+    headline: '按岗位分路线的系统教程。',
+    lead: '每条路线按阶段排讲次，进度存在浏览器本地，关掉再打开接着看。',
+    projects: tutorials,
+  },
+  {
+    eyebrow: 'tools',
+    headline: '干活时缺什么就写什么。',
+    lead: '存储选型要算的账、GPFS 的权限缺口、随手要个强密码，都做成了能直接开的页面。',
+    projects: tools,
+  },
+]
+
+/** 首屏统计只认数据源，避免文案里的数字和卡片对不上 */
+export const stats = {
+  tracks: tutorials.length,
+  lectures: tutorials.reduce((sum, project) => sum + (project.lectures ?? 0), 0),
+  tools: tools.length,
+}

@@ -69,6 +69,10 @@ done
 cp ~/Projects/wutz/password/logo.svg public/logos/password.svg
 ```
 
+⚠️ `password.svg` 是唯一一个**不能直接覆盖**的：它是纯 ink 墨黑，在本站暗色模式的
+`#0a0a0a` 卡片上会糊掉，所以本站这份在 SVG 内部加了一段 `<style>` 做极性翻转
+（它当 `<img>` 用，外部 CSS 够不着）。同步时记得把那段 `<style>` 和 `class="shield"` 补回去。
+
 `mmapi` 是纯仓库、没有站点，它的 logo 只存在于本项目。
 
 各站 logo 统一是「品牌色圆角方块 + 白色几何字形」的 32×32 SVG，配色取自各站
