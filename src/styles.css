@@ -22,9 +22,49 @@
   --color-link: #0070f3;
   --color-link-deep: #0761d1;
 
-  /* 卡片从不吃单个大投影,用小偏移堆叠出“贴在页面上”的层次(DESIGN.md Level 2/4) */
-  --shadow-card: 0 1px 1px #00000005, 0 2px 2px #0000000a;
-  --shadow-card-hover: 0 2px 2px #0000000a, 0 8px 16px -4px #0000000a;
+  /*
+   * 卡片从不吃单个大投影,用小偏移堆叠出“贴在页面上”的层次(DESIGN.md Level 2/4)。
+   * 投影颜色必须绕一层 var:Tailwind 会把 --shadow-* 的字面量内联进 utility,
+   * 直接在暗色里改 --shadow-card 是改不动的。
+   */
+  --shadow-card: 0 1px 1px var(--tint-weak), 0 2px 2px var(--tint);
+  --shadow-card-hover: 0 2px 2px var(--tint), 0 8px 16px -4px var(--tint);
+}
+
+/*
+ * 暗色是同一套语义令牌的极性翻转(DESIGN.md 把 canvas-soft → primary 的
+ * 深墨 band 当作主要景深手段),不是另一套配色:页面沉到纯黑,卡片抬到 #0a0a0a,
+ * 层次靠“表面亮一档 + hairline”撑,不靠投影 —— 黑底上投影本来就看不见。
+ * 这些规则故意写在 layer 之外,好覆盖 Tailwind @theme 生成的 :root 变量。
+ */
+:root {
+  color-scheme: light dark;
+
+  --tint-weak: #00000005;
+  --tint: #0000000a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #ededed;
+    --color-body: #a1a1a1;
+    --color-mute: #8f8f8f;
+    --color-hairline: #2e2e2e;
+    --color-hairline-strong: #6e6e6e;
+    --color-canvas: #0a0a0a;
+    --color-canvas-soft: #000000;
+    --color-canvas-soft-2: #1f1f1f;
+    --color-link: #3291ff;
+    --color-link-deep: #0070f3;
+
+    /*
+     * 黑底上黑投影等于没画:页面已经是纯黑,再往下压也不会更暗。
+     * 所以暗色直接把投影关掉,景深交给“卡片比页面亮一档 + hairline 描边”,
+     * hover 的反馈由描边转亮 + 标题转 link 蓝 + 箭头位移承担。
+     */
+    --tint-weak: #0000;
+    --tint: #0000;
+  }
 }
 
 html {
@@ -35,14 +75,46 @@ html {
 body {
   /* Inter 的几何替代字形,DESIGN.md 指定的开启项 */
   font-feature-settings: "ss01", "ss02";
-}
 
-::selection {
-  background: #171717;
-  color: #f2f2f2;
-}
-
-/* 兜底：任何一处算漏的宽度都不许把整页撑出屏幕 */
-body {
+  /* 兜底：任何一处算漏的宽度都不许把整页撑出屏幕 */
   overflow-x: clip;
+}
+
+/* 走令牌而不是写死 hex，暗色下自然就翻成“白底黑字” */
+::selection {
+  background: var(--color-ink);
+  color: var(--color-canvas-soft);
+}
+
+/*
+ * hero 尺度的 mesh 渐变是整套设计唯一的装饰:develop/preview/ship
+ * 三对渐变按原顺序串成一条,大模糊压成背景光,绝不缩小成图标、绝不改顺序。
+ * 黑底吃光,所以暗色下把不透明度往上抬一档。
+ */
+.hero-glow {
+  background: linear-gradient(
+    90deg,
+    #007cf0 0%,
+    #00dfd8 20%,
+    #7928ca 40%,
+    #ff0080 60%,
+    #ff4d4d 80%,
+    #f9cb28 100%
+  );
+  opacity: 0.25;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-glow {
+    opacity: 0.36;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

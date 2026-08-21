@@ -31,11 +31,19 @@ function RootLayout() {
     <html lang="zh-CN">
       <head>
         <HeadContent />
+        {/*
+         * 地址栏/状态栏跟着页面底色走，暗色下才不会在页面顶上留一条白边。
+         * 这两条不能走 route 的 meta 数组：那边按 name 去重，同名的会被丢掉一条。
+         */}
+        <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
       </head>
       <body className="min-h-screen bg-canvas-soft font-sans text-ink antialiased">
         {/* 大屏放宽到 6xl 并让卡片走双列,窄屏仍是 3xl 单列的阅读宽度 */}
         <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-16 lg:max-w-6xl lg:px-8 lg:py-20">
-          <Outlet />
+          <main>
+            <Outlet />
+          </main>
 
           <footer className="mt-14 border-t border-hairline pt-6 text-xs text-mute sm:mt-20">
             <p>
