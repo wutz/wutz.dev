@@ -77,10 +77,38 @@ cp ~/Projects/wutz/password/logo.svg public/logos/password.svg
 
 ## 部署
 
-Cloudflare Workers，通过 `wrangler` CLI 手动部署：
+Cloudflare Workers。Worker 名为 `wutz-dev`，自定义域 `wutz.dev` 已在 wrangler.toml 的
+`routes` 里声明（`custom_domain = true`），部署时自动绑定。
+
+本地手动部署：
 
 ```bash
-bun run deploy
+bun run deploy           # 构建 + wrangler deploy，直接上生产
+bun run deploy:preview   # 构建 + wrangler versions upload，只出预览地址，不动生产流量
 ```
 
-Worker 名为 `wutz-dev`，自定义域 `wutz.dev` 已在 wrangler.toml 的 `routes` 里声明（`custom_domain = true`），部署时自动绑定。
+### Workers Builds（Git 连接的自动构建）
+
+**必须在 Cloudflare 面板 → Workers & Pages → wutz-dev → Settings → Builds 里配置**：
+
+| 字段 | 值 |
+|---|---|
+| Build command | `bun run build` |
+| Deploy command | `npx wrangler versions upload`（或 `bun run deploy:preview`，二者等价） |
+
+**Build command 不能留空。** 本项目的部署入口是 vite 构建产物里生成的
+`dist/server/wrangler.json`（`@cloudflare/vite-plugin` 会写一份
+`.wrangler/deploy/config.json` 把 wrangler 重定向过去）。仓库根目录 wrangler.toml 里的
+`main = "@tanstack/react-start/server-entry"` 只是给 vite 用的入口标记，不是能直接部署的文件。
+所以在新克隆的仓库里，不先跑构建就执行 `wrangler versions upload`，wrangler 会回落到根配置并报：
+
+```
+✘ [ERROR] The entry-point file at "@tanstack/react-start/server-entry" was not found.
+```
+
+顺带记一笔：这个坑没法在仓库里绕开。wrangler.toml 的 `[build]` 钩子也不行——wrangler 先加载
+配置、再跑钩子，等钩子里的构建产出重定向文件时，`main` 已经解析失败了。
+
+预览地址由 wrangler.toml 的 `preview_urls = true` 打开（该开关默认 `false`），
+`versions upload` 每上传一个版本会给出一条
+`<version>-wutz-dev.<subdomain>.workers.dev`。

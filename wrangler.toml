@@ -1,7 +1,18 @@
 name = "wutz-dev"
 compatibility_date = "2026-06-03"
 compatibility_flags = ["nodejs_compat"]
+
+# 这个 main 只是给 vite 用的入口标记,真正部署读的是 vite 构建产物里生成的
+# dist/server/wrangler.json(靠 .wrangler/deploy/config.json 重定向过去)。
+# 所以 wrangler deploy / versions upload 之前必须先跑一次 bun run build,
+# 否则 wrangler 拿不到重定向、回落到本文件,就会报
+# 「The entry-point file at "@tanstack/react-start/server-entry" was not found」。
+# 也别想用 [build] 钩子偷懒:wrangler 会先加载配置再跑钩子,main 仍然解析失败。
 main = "@tanstack/react-start/server-entry"
+
+# versions upload 上传的版本要拿到 <version>-wutz-dev.<subdomain>.workers.dev
+# 预览地址,这个开关默认是 false,得显式打开。
+preview_urls = true
 
 routes = [
   { pattern = "wutz.dev", custom_domain = true }
