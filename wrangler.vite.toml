@@ -1,0 +1,23 @@
+# vite(@cloudflare/vite-plugin)专用的 wrangler 配置,由 vite.config.ts 的
+# configPath 显式指向。这里的 main 是给 vite 用的入口标记(模块说明符,不是文件),
+# vite 构建会以它为 SSR 入口,产出 dist/server/wrangler.json 作为真正的部署配置。
+#
+# 它和根 wrangler.toml 是一对:根配置负责"新克隆仓库里直接 wrangler versions
+# upload / deploy 也能通"的 CI 引导(先跑构建再上传产物)。两边共享的字段
+# (name/compat/routes/preview_urls/observability)改动时要同步。
+name = "wutz-dev"
+compatibility_date = "2026-06-03"
+compatibility_flags = ["nodejs_compat"]
+
+main = "@tanstack/react-start/server-entry"
+
+# versions upload 上传的版本要拿到 <version>-wutz-dev.<subdomain>.workers.dev
+# 预览地址,这个开关默认是 false,得显式打开。
+preview_urls = true
+
+routes = [
+  { pattern = "wutz.dev", custom_domain = true }
+]
+
+[observability]
+enabled = true
