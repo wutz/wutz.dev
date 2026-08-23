@@ -13,30 +13,12 @@ function GitHubMark() {
   )
 }
 
-/* 出站箭头走矢量。'↗' 这个字符在各平台字体里的字重和基线差得太多，画出来才对得齐 */
-function ArrowUpRight() {
-  return (
-    <svg
-      viewBox="0 0 16 16"
-      aria-hidden="true"
-      className="h-3.5 w-3.5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5.5 10.5 10.5 5.5M6 5.5h4.5V10" />
-    </svg>
-  )
-}
-
 function ProjectCard({ project }: { project: Project }) {
   return (
     <li>
       {/*
-       * h-full + flex-col：大屏双列下同一行的两张卡摘要长度不同，
-       * 标签和域名靠 mt-auto 压到卡片底部，横向才对得齐。
+       * h-full + flex-col：大屏双列下同一行的两张卡摘要行数不同，
+       * 底部那行域名靠 mt-auto 压到卡片底部，横向才对得齐。
        * 卡片 chrome 按 DESIGN.md：白卡 + hairline 描边 + 小偏移堆叠阴影，
        * hover 升到 Level 4，绝不加单个大投影。
        */}
@@ -56,74 +38,33 @@ function ProjectCard({ project }: { project: Project }) {
         />
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              {/* 展示字重的上限是 600，再粗就脱离这套设计的语气 */}
-              <h3 className="text-base font-semibold tracking-tight transition group-hover:text-link">
-                {project.name}
-              </h3>
-              <p className="mt-1 text-xs text-mute">{project.tagline}</p>
-            </div>
-            <span
-              aria-hidden="true"
-              className="mt-0.5 shrink-0 text-mute transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-link"
-            >
-              <ArrowUpRight />
-            </span>
-          </div>
+          {/* 展示字重的上限是 600，再粗就脱离这套设计的语气 */}
+          <h3 className="text-base font-semibold tracking-tight transition group-hover:text-link">
+            {project.name}
+          </h3>
+          <p className="mt-1 text-xs text-mute">{project.tagline}</p>
 
           {/* 卡片内部是紧的、卡片之间是松的——DESIGN.md 的节奏就是这个方向 */}
           <p className="mt-2 text-sm leading-relaxed text-body">{project.summary}</p>
 
-          <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-4">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-hairline bg-canvas-soft px-2 py-0.5 text-xs text-body"
-              >
-                {tag}
-              </span>
-            ))}
+          {/* 域名走 mono —— 技术层的东西都用等宽字体说话；讲数放同一行右侧 */}
+          <div className="mt-auto flex items-baseline justify-between gap-3 pt-4 font-mono text-xs text-mute">
+            <p className="truncate transition group-hover:text-link">{project.label}</p>
+            {project.lectures ? <span className="shrink-0">{project.lectures} 讲</span> : null}
           </div>
-
-          {/* 域名走 mono —— 技术层的东西都用等宽字体说话 */}
-          <p className="mt-3 font-mono text-xs text-mute transition group-hover:text-link">
-            {project.label}
-          </p>
         </div>
       </a>
     </li>
   )
 }
 
-function Section({
-  eyebrow,
-  headline,
-  lead,
-  projects,
-}: {
-  eyebrow: string
-  headline: string
-  lead: string
-  projects: Project[]
-}) {
+function Section({ eyebrow, projects }: { eyebrow: string; projects: Project[] }) {
   return (
-    <section className="mt-16 sm:mt-20 lg:mt-24">
-      <div className="flex items-center gap-2.5">
-        {/* section eyebrow 用 mono 大写——这套设计里唯一允许全大写的地方 */}
-        <h2 className="font-mono text-xs uppercase text-mute">{eyebrow}</h2>
-        {/* 计数原先是 hairline-strong 的裸数字，对比度不够；改成描边小徽标 */}
-        <span className="rounded-full border border-hairline px-1.5 font-mono text-[11px] leading-5 text-mute">
-          {projects.length}
-        </span>
-      </div>
+    <section className="mt-14 sm:mt-16">
+      {/* section eyebrow 用 mono 大写——这套设计里唯一允许全大写的地方 */}
+      <h2 className="font-mono text-xs uppercase text-mute">{eyebrow}</h2>
 
-      <p className="mt-3 max-w-2xl text-xl font-semibold tracking-[-0.03em] sm:text-2xl sm:tracking-[-0.04em]">
-        {headline}
-      </p>
-      <p className="mt-2 max-w-2xl text-sm text-body sm:text-base">{lead}</p>
-
-      <ul className="mt-6 grid gap-3 sm:mt-8 lg:grid-cols-2 lg:gap-4">
+      <ul className="mt-4 grid gap-3 lg:grid-cols-2 lg:gap-4">
         {projects.map((project) => (
           <ProjectCard key={project.href} project={project} />
         ))}

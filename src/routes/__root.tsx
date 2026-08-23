@@ -3,7 +3,7 @@ import { HeadContent, Outlet, Scripts, createRootRoute } from '@tanstack/react-r
 import appCss from '../styles.css?url'
 
 const DESCRIPTION =
-  'wutz 的个人主页：系统基础设施方向的教程与小工具，涵盖网络、存储、Kubernetes 与 LLM 强化学习。'
+  'wutz 的个人主页：系统基础设施方向的教程与小工具，涵盖网络、存储运维与研发、Kubernetes 与 LLM 强化学习。'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -45,9 +45,9 @@ function RootLayout() {
             <Outlet />
           </main>
 
-          <footer className="mt-14 border-t border-hairline pt-6 text-xs text-mute sm:mt-20">
+          <footer className="mt-14 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-hairline pt-6 text-xs text-mute sm:mt-20">
             <p>
-              wutz.dev · 站点与工具的源码都在{' '}
+              © {new Date().getFullYear()} wutz.dev · 站点与工具的源码都在{' '}
               <a
                 href="https://github.com/wutz"
                 target="_blank"
@@ -58,6 +58,8 @@ function RootLayout() {
               </a>
               。
             </p>
+            {/* 教程站的共性说明放页脚，卡片里就不用每张重复一遍 */}
+            <p className="font-mono text-[11px]">学习进度保存在浏览器本地</p>
           </footer>
         </div>
 

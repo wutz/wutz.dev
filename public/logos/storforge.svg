@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="7" fill="#c0532f"/>
+  <!-- 三个存储节点连成一张网：mesh 之意 -->
+  <g stroke="#ffffff" stroke-width="1.6" opacity="0.85">
+    <line x1="10" y1="11" x2="22" y2="11"/>
+    <line x1="10" y1="11" x2="16" y2="22"/>
+    <line x1="22" y1="11" x2="16" y2="22"/>
+  </g>
+  <g fill="#ffffff">
+    <circle cx="10" cy="11" r="3.4"/>
+    <circle cx="22" cy="11" r="3.4"/>
+    <circle cx="16" cy="22" r="3.4"/>
+  </g>
+  <g fill="#c0532f">
+    <circle cx="10" cy="11" r="1.2"/>
+    <circle cx="22" cy="11" r="1.2"/>
+    <circle cx="16" cy="22" r="1.2"/>
+  </g>
+</svg>

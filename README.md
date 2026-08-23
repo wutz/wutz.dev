@@ -52,8 +52,8 @@ wutz.dev/
   href: 'https://foo.wutz.dev/',
   label: 'foo.wutz.dev',    // 卡片底部的域名/仓库
   logo: '/logos/foo.svg',   // 顺手把该站的 logo.svg 复制到 public/logos/
-  summary: '这个项目覆盖什么。',
-  tags: ['标签1', '标签2'],
+  summary: '一句话摘要，细节留给站点自己讲。',
+  lectures: 42,             // 教程才有；首屏统计按它加总
 }
 ```
 
@@ -93,26 +93,33 @@ bun run deploy:preview   # 构建 + wrangler versions upload，只出预览地�
 
 ### Workers Builds（Git 连接的自动构建）
 
-**必须在 Cloudflare 面板 → Workers & Pages → wutz-dev → Settings → Builds 里配置**：
+面板里 Build command 留空也能通：非生产分支默认的 `npx wrangler versions upload`
+在新克隆的仓库里可以直接跑。原理是 wrangler 配置拆成了两份：
 
-| 字段 | 值 |
-|---|---|
-| Build command | `bun run build` |
-| Deploy command | `npx wrangler versions upload`（或 `bun run deploy:preview`，二者等价） |
+- **wrangler.toml（根）** — CI 引导用的部署配置。`main` 指向构建产物
+  `dist/server/index.js`，`[build]` 钩子先跑 `bun run build`（wrangler 的执行顺序是
+  先跑 custom build、再解析 `main`）。新克隆的仓库里没有重定向文件时，wrangler
+  回落到它，恰好就是「构建 + 上传产物」。
+- **wrangler.vite.toml** — vite（`@cloudflare/vite-plugin`，由 vite.config.ts 的
+  `configPath` 指向）用的入口配置，`main = "@tanstack/react-start/server-entry"`
+  是给 vite 用的入口标记。构建会据此产出真正的部署配置
+  `dist/server/wrangler.json`，并写 `.wrangler/deploy/config.json` 把后续的
+  wrangler 调用重定向过去——所以本地 `bun run deploy` 走的仍是生成配置。
 
-**Build command 不能留空。** 本项目的部署入口是 vite 构建产物里生成的
-`dist/server/wrangler.json`（`@cloudflare/vite-plugin` 会写一份
-`.wrangler/deploy/config.json` 把 wrangler 重定向过去）。仓库根目录 wrangler.toml 里的
-`main = "@tanstack/react-start/server-entry"` 只是给 vite 用的入口标记，不是能直接部署的文件。
-所以在新克隆的仓库里，不先跑构建就执行 `wrangler versions upload`，wrangler 会回落到根配置并报：
+两份配置共享的字段（name / compatibility / routes / preview_urls / observability）
+改动时要同步；根配置里 `main` / `no_bundle` / `rules` / assets 目录照抄
+`dist/server/wrangler.json`，vite 或 TanStack Start 大版本升级后要对一下有没有漂移。
 
-```
-✘ [ERROR] The entry-point file at "@tanstack/react-start/server-entry" was not found.
-```
+历史坑（2026-08 已修复）：以前根配置的 `main` 就是 vite 的入口标记，新克隆仓库里
+不先构建直接 `wrangler versions upload` 会报
+`The entry-point file at "@tanstack/react-start/server-entry" was not found`，
+只能靠面板把 Build command 配成 `bun run build` 兜底。
 
-顺带记一笔：这个坑没法在仓库里绕开。wrangler.toml 的 `[build]` 钩子也不行——wrangler 先加载
-配置、再跑钩子，等钩子里的构建产出重定向文件时，`main` 已经解析失败了。
+当时「[build] 钩子也不行」的结论只对「`main` 指向不存在的模块说明符」成立——
+钩子其实先于 `main` 解析执行，报错原文
+`The expected output file at ... was not found after running custom build` 就是证据。
+把 `main` 改指构建产物后，钩子方案即成立，这也是现在拆两份配置的由来。
 
-预览地址由 wrangler.toml 的 `preview_urls = true` 打开（该开关默认 `false`），
+预览地址由两份配置里的 `preview_urls = true` 打开（该开关默认 `false`），
 `versions upload` 每上传一个版本会给出一条
 `<version>-wutz-dev.<subdomain>.workers.dev`。

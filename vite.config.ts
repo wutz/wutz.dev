@@ -7,7 +7,9 @@ import { cloudflare } from '@cloudflare/vite-plugin'
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [
-    cloudflare({ viteEnvironment: { name: 'ssr' } }),
+    // 根 wrangler.toml 已改成 CI 引导用的部署配置,vite 的入口标记拆去了
+    // wrangler.vite.toml,这里必须显式指过去
+    cloudflare({ configPath: 'wrangler.vite.toml', viteEnvironment: { name: 'ssr' } }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
