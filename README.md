@@ -52,8 +52,8 @@ wutz.dev/
   href: 'https://foo.wutz.dev/',
   label: 'foo.wutz.dev',    // 卡片底部的域名/仓库
   logo: '/logos/foo.svg',   // 顺手把该站的 logo.svg 复制到 public/logos/
-  summary: '这个项目覆盖什么。',
-  tags: ['标签1', '标签2'],
+  summary: '一句话摘要，细节留给站点自己讲。',
+  lectures: 42,             // 教程才有；首屏统计按它加总
 }
 ```
 
