@@ -45,6 +45,17 @@ export const tutorials: Project[] = [
     lectures: 36,
   },
   {
+    name: 'Storforge',
+    tagline: '从存储运维到存储研发',
+    href: 'https://storforge.wutz.dev/',
+    label: 'storforge.wutz.dev',
+    logo: '/logos/storforge.svg',
+    summary:
+      '29 讲、六个阶段、五个里程碑。写给存储运维工程师的研发教程：带着 AI 结对，用 Rust 从零构建代号 forge 的类 Weka NeuralMesh 分布式存储——从单机 blob 引擎、WAL 与崩溃一致性，到 io_uring、EC 条带、Raft 元数据，最终做出能 mount 到 Linux 上跑编译任务的文件系统。',
+    tags: ['Rust', '分布式存储', 'io_uring', '纠删码', 'FUSE'],
+    lectures: 29,
+  },
+  {
     name: 'Kubepath',
     tagline: 'K8s 工程师成长路径',
     href: 'https://kubepath.wutz.dev/',

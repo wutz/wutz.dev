@@ -86,10 +86,11 @@ function ProjectCard({ project }: { project: Project }) {
             ))}
           </div>
 
-          {/* 域名走 mono —— 技术层的东西都用等宽字体说话 */}
-          <p className="mt-3 font-mono text-xs text-mute transition group-hover:text-link">
-            {project.label}
-          </p>
+          {/* 域名走 mono —— 技术层的东西都用等宽字体说话；讲数放同一行右侧，扫一眼就知道体量 */}
+          <div className="mt-3 flex items-baseline justify-between gap-3 font-mono text-xs text-mute">
+            <p className="truncate transition group-hover:text-link">{project.label}</p>
+            {project.lectures ? <span className="shrink-0">{project.lectures} 讲</span> : null}
+          </div>
         </div>
       </a>
     </li>
@@ -118,7 +119,8 @@ function Section({
         </span>
       </div>
 
-      <p className="mt-3 max-w-2xl text-xl font-semibold tracking-[-0.03em] sm:text-2xl sm:tracking-[-0.04em]">
+      {/* band 标题按 display-lg 的尺度走（32px/600/负字距），撑起段落的层级 */}
+      <p className="mt-3 max-w-2xl text-2xl font-semibold tracking-[-0.04em] sm:text-[2rem] sm:leading-10">
         {headline}
       </p>
       <p className="mt-2 max-w-2xl text-sm text-body sm:text-base">{lead}</p>
@@ -144,6 +146,25 @@ function Home() {
 
         <div className="relative flex items-start justify-between gap-4">
           <div className="min-w-0">
+            {/* banner-marketing：hero 顶上的公告胶囊，指向最新上线的站点 */}
+            <a
+              href="https://storforge.wutz.dev/"
+              target="_blank"
+              rel="noreferrer"
+              className="group/banner mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-hairline bg-canvas py-1 pr-3 pl-1 text-xs text-body shadow-card transition hover:border-hairline-strong hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link"
+            >
+              <span className="shrink-0 rounded-full bg-ink px-2 py-0.5 text-[10px] font-medium text-canvas">
+                新
+              </span>
+              <span className="truncate">Storforge 上线：用 Rust 造一个分布式存储系统</span>
+              <span
+                aria-hidden="true"
+                className="shrink-0 text-mute transition group-hover/banner:translate-x-0.5 group-hover/banner:-translate-y-0.5 group-hover/banner:text-link"
+              >
+                <ArrowUpRight />
+              </span>
+            </a>
+
             <h1 className="text-3xl leading-[1.1] font-semibold tracking-[-0.03em] sm:text-4xl sm:tracking-[-0.04em] lg:text-5xl lg:tracking-[-0.05em]">
               wutz<span className="text-link">.dev</span>
             </h1>
