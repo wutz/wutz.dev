@@ -3,7 +3,7 @@ import { HeadContent, Outlet, Scripts, createRootRoute } from '@tanstack/react-r
 import appCss from '../styles.css?url'
 
 const DESCRIPTION =
-  'wutz 的个人主页：系统基础设施方向的教程与小工具，涵盖网络、存储运维与研发、Kubernetes 与 LLM 强化学习。'
+  'wutz 的个人主页：系统基础设施方向的教程与小工具，涵盖网络、存储运维与研发、Kubernetes、LLM 强化学习与 agent 开发。'
 
 export const Route = createRootRoute({
   head: () => ({

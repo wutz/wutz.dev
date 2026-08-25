@@ -58,11 +58,22 @@ function ProjectCard({ project }: { project: Project }) {
   )
 }
 
-function Section({ eyebrow, projects }: { eyebrow: string; projects: Project[] }) {
+function Section({
+  eyebrow,
+  note,
+  projects,
+}: {
+  eyebrow: string
+  note?: string
+  projects: Project[]
+}) {
   return (
     <section className="mt-14 sm:mt-16">
-      {/* section eyebrow 用 mono 大写——这套设计里唯一允许全大写的地方 */}
-      <h2 className="font-mono text-xs uppercase text-mute">{eyebrow}</h2>
+      {/* section eyebrow 用 mono 大写——这套设计里唯一允许全大写的地方；note 是同一行的中文注解 */}
+      <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+        <h2 className="font-mono text-xs uppercase text-mute">{eyebrow}</h2>
+        {note ? <p className="text-xs text-mute">{note}</p> : null}
+      </div>
 
       <ul className="mt-4 grid gap-3 lg:grid-cols-2 lg:gap-4">
         {projects.map((project) => (
@@ -94,7 +105,7 @@ function Home() {
 
             {/* 统计行走 mono，数字全部由 lib/projects 算出来，不手写 */}
             <p className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-mute">
-              <span>{stats.tracks} 条路线</span>
+              <span>{stats.tutorials} 个教程</span>
               <span aria-hidden="true" className="text-hairline-strong">
                 ·
               </span>
