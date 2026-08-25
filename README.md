@@ -43,7 +43,13 @@ wutz.dev/
 
 ## 增删项目
 
-只改 `src/lib/projects.ts`：往 `tutorials` 或 `tools` 数组里加一条 `Project`。
+只改 `src/lib/projects.ts`：往 `paths`、`builds` 或 `tools` 数组里加一条 `Project`。
+
+- `paths` — 按岗位铺的成长路线（netpath / storpath / kubepath）
+- `builds` — 跟着从零造一个系统（storforge / rlforge / agentpath）
+- `tools` — 在线小工具和仓库
+
+`tutorials` 是 `paths + builds` 的合集，只给首屏统计用，不用手动维护。
 
 ```ts
 {
@@ -60,10 +66,10 @@ wutz.dev/
 ## logo 从哪来
 
 `public/logos/*.svg` 是各站点自己 `public/logo.svg`（password 是仓库根目录的
-`logo.svg`）的副本，本站自带一份，避免首屏要等 7 个跨站请求。**改了那边记得同步过来**：
+`logo.svg`）的副本，本站自带一份，避免首屏要等 9 个跨站请求。**改了那边记得同步过来**：
 
 ```bash
-for s in netpath storpath kubepath rlforge storplan; do
+for s in netpath storpath kubepath storforge rlforge agentpath storplan; do
   cp ~/Projects/wutz/$s/public/logo.svg public/logos/$s.svg
 done
 cp ~/Projects/wutz/password/logo.svg public/logos/password.svg

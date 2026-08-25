@@ -18,10 +18,10 @@ export type Project = {
 }
 
 /**
- * 教程站点。都是"按岗位分路线 + 进度存本地浏览器"的同一套形态，
- * 所以 summary 只用一句话点出各自覆盖的技术范围，不重复讲这个共性。
+ * 教程之一：成长路径。按岗位铺一条从基本功到生产现场的线，
+ * summary 只用一句话点出各自覆盖的技术范围，不重复讲"进度存本地"这个共性。
  */
-export const tutorials: Project[] = [
+export const paths: Project[] = [
   {
     name: 'Netpath',
     tagline: '网络运维工程师成长路径',
@@ -43,16 +43,6 @@ export const tutorials: Project[] = [
     lectures: 36,
   },
   {
-    name: 'Storforge',
-    tagline: '从存储运维到存储研发',
-    href: 'https://storforge.wutz.dev/',
-    label: 'storforge.wutz.dev',
-    logo: '/logos/storforge.svg',
-    summary:
-      '带着 AI 结对，用 Rust 从零造一个类 Weka NeuralMesh 的分布式存储，终点是能 mount 到 Linux 上跑编译。',
-    lectures: 29,
-  },
-  {
     name: 'Kubepath',
     tagline: 'K8s 工程师成长路径',
     href: 'https://kubepath.wutz.dev/',
@@ -61,6 +51,23 @@ export const tutorials: Project[] = [
     summary:
       '从控制面原理与 Pod/Service 网络模型，到 Cilium 与 eBPF、GPU 与 AI 负载调度、多租户。',
     lectures: 36,
+  },
+]
+
+/**
+ * 教程之二：从零实现。不铺岗位路线，而是跟着从头造一个能跑起来的系统，
+ * 所以 summary 要点明"造的是什么、造到哪一步"。
+ */
+export const builds: Project[] = [
+  {
+    name: 'Storforge',
+    tagline: '从存储运维到存储研发',
+    href: 'https://storforge.wutz.dev/',
+    label: 'storforge.wutz.dev',
+    logo: '/logos/storforge.svg',
+    summary:
+      '带着 AI 结对，用 Rust 从零造一个类 Weka NeuralMesh 的分布式存储，终点是能 mount 到 Linux 上跑编译。',
+    lectures: 29,
   },
   {
     name: 'RLforge',
@@ -72,7 +79,20 @@ export const tutorials: Project[] = [
       '在一张 32GB 的卡上手写自己的 GRPO，把 Qwen3-0.6B 的数学正确率练上去，再用 TRL 复现做对照。',
     lectures: 27,
   },
+  {
+    name: 'Agentpath',
+    tagline: '借 Pi 造一个 agent',
+    href: 'https://agentpath.wutz.dev/',
+    label: 'agentpath.wutz.dev',
+    logo: '/logos/agentpath.svg',
+    summary:
+      '从八十行的 agent loop 写起，经工具设计、上下文预算、扩展与权限沙箱、评测与成本，最后拼出自己的 harness。',
+    lectures: 31,
+  },
 ]
+
+/** 两类教程合起来的全集，统计和"还有没有别的"这类问题都问它 */
+export const tutorials: Project[] = [...paths, ...builds]
 
 export const tools: Project[] = [
   {
@@ -104,15 +124,19 @@ export const tools: Project[] = [
   },
 ]
 
-/** 页面分段。极简排版下每段只留一个 mono eyebrow，不再配 display 标题和引子 */
-export const sections: { eyebrow: string; projects: Project[] }[] = [
-  { eyebrow: 'tutorials', projects: tutorials },
+/**
+ * 页面分段。极简排版下每段只留一个 mono eyebrow，不再配 display 标题和引子；
+ * 教程拆成两段之后光看 paths/builds 认不出差别，所以额外给一句中文的 note。
+ */
+export const sections: { eyebrow: string; note?: string; projects: Project[] }[] = [
+  { eyebrow: 'paths', note: '按岗位铺的成长路线', projects: paths },
+  { eyebrow: 'builds', note: '跟着从零造一个系统', projects: builds },
   { eyebrow: 'tools', projects: tools },
 ]
 
 /** 首屏统计只认数据源，避免文案里的数字和卡片对不上 */
 export const stats = {
-  tracks: tutorials.length,
+  tutorials: tutorials.length,
   lectures: tutorials.reduce((sum, project) => sum + (project.lectures ?? 0), 0),
   tools: tools.length,
 }
