@@ -4,7 +4,7 @@ wutz.dev 个人主页。纯项目导航单页：把「教程」和「工具」�
 
 ## 技术栈
 
-与 netpath / storpath / storplan 保持一致：
+与 netpath / storplan 等站点保持一致：
 
 - **TanStack Start** — 全栈 React 框架
 - **TanStack Router** — 类型安全的文件路由
@@ -45,9 +45,11 @@ wutz.dev/
 
 只改 `src/lib/projects.ts`：往 `paths`、`builds` 或 `tools` 数组里加一条 `Project`。
 
-- `paths` — 按岗位铺的成长路线（netpath / storpath / kubepath）
+- `paths` — 按岗位铺的成长路线（netpath / storage-journey / k8s-journey）
 - `builds` — 跟着从零造一个系统（storforge / rlforge / agentpath）
 - `tools` — 在线小工具和仓库
+
+大屏每组按三列排，所以每组最好保持 3 的倍数，否则最后一行会落单。
 
 `tutorials` 是 `paths + builds` 的合集，只给首屏统计用，不用手动维护。
 
@@ -69,8 +71,12 @@ wutz.dev/
 `logo.svg`）的副本，本站自带一份，避免首屏要等 9 个跨站请求。**改了那边记得同步过来**：
 
 ```bash
-for s in netpath storpath kubepath storforge rlforge agentpath storplan; do
+for s in netpath storforge rlforge agentpath storplan; do
   cp ~/Projects/wutz/$s/public/logo.svg public/logos/$s.svg
+done
+# 两个 journey 站点的图标叫 favicon.svg
+for s in storage-journey k8s-journey; do
+  cp ~/Projects/wutz/$s/public/favicon.svg public/logos/$s.svg
 done
 cp ~/Projects/wutz/password/logo.svg public/logos/password.svg
 ```

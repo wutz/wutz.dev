@@ -33,24 +33,24 @@ export const paths: Project[] = [
     lectures: 54,
   },
   {
-    name: 'Storpath',
-    tagline: '存储工程师成长路径',
-    href: 'https://storpath.wutz.dev/',
-    label: 'storpath.wutz.dev',
-    logo: '/logos/storpath.svg',
+    name: 'Storage Journey',
+    tagline: '从零到专业的存储教程',
+    href: 'https://storage-journey.wutz.dev/',
+    label: 'storage-journey.wutz.dev',
+    logo: '/logos/storage-journey.svg',
     summary:
-      '块/文件/对象的语义、副本与纠删码的取舍、容量与性能规划，再到 Ceph、GPFS 与 K8s 存储。',
-    lectures: 36,
+      '从硬盘、文件系统与 I/O 性能分析讲起，经 BPF 观测和 Ceph 生产运维，走到 GPFS 与 AI 训练存储。',
+    lectures: 39,
   },
   {
-    name: 'Kubepath',
-    tagline: 'K8s 工程师成长路径',
-    href: 'https://kubepath.wutz.dev/',
-    label: 'kubepath.wutz.dev',
-    logo: '/logos/kubepath.svg',
+    name: 'K8s Journey',
+    tagline: '从零到生产级的 Kubernetes 教程',
+    href: 'https://k8s-journey.wutz.dev/',
+    label: 'k8s-journey.wutz.dev',
+    logo: '/logos/k8s-journey.svg',
     summary:
-      '从控制面原理与 Pod/Service 网络模型，到 Cilium 与 eBPF、GPU 与 AI 负载调度、多租户。',
-    lectures: 36,
+      '从容器基础、声明式部署，到控制面原理、Kubespray 与 Cilium 生产集群，再到 GPU 调度与大模型推理。',
+    lectures: 37,
   },
 ]
 

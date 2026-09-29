@@ -734,3 +734,12 @@ The brand uses STACKED shadows — multiple small offsets layered to fake natura
 - Don't promote the geometric sans to weight 700. The brand's display ceiling is 600.
 - Don't pair the marketing 100-px pill CTA shape with the 6-px nav radius on the same screen — pick a scale and stay there.
 - Don't set body paragraphs in the mono face. The mono is for code + technical labels only.
+
+## wutz.dev 落地约定
+
+本站只借用上面这套语言的骨架，具体取舍如下：
+
+- **主题色**：沿用 `link` 蓝 `#0070f3`（暗色 `#3291ff`）作为唯一强调色——站点是面向工程师的基础设施教程导航，蓝色与 `.dev` 字标、链接语义一致，不再另起品牌色。各子站自己的品牌色只出现在各自的 logo 方块里。
+- **分组栅格**：每组（paths / builds / tools）固定 3 张卡，大屏三列、以下单列，不用双列，避免最后一行落单。
+- **卡片结构**：logo 在上、右上角一个外链箭头；标题 → tagline → 摘要，底部 hairline 分隔后放 mono 域名与讲数。hover 时描边转深、标题与箭头转 link 蓝，箭头向右上位移 2px。
+- **组标题**：mono 大写 eyebrow + 中文注解，右端对齐一个两位数的组内数量。
