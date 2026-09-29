@@ -13,11 +13,19 @@ function GitHubMark() {
   )
 }
 
+function ArrowUpRight() {
+  return (
+    <svg viewBox="0 0 16 16" aria-hidden="true" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 11 11 5M6 5h5v5" />
+    </svg>
+  )
+}
+
 function ProjectCard({ project }: { project: Project }) {
   return (
     <li>
       {/*
-       * h-full + flex-col：大屏双列下同一行的两张卡摘要行数不同，
+       * h-full + flex-col：同一行的卡片摘要行数不同，
        * 底部那行域名靠 mt-auto 压到卡片底部，横向才对得齐。
        * 卡片 chrome 按 DESIGN.md：白卡 + hairline 描边 + 小偏移堆叠阴影，
        * hover 升到 Level 4，绝不加单个大投影。
@@ -26,32 +34,37 @@ function ProjectCard({ project }: { project: Project }) {
         href={project.href}
         target="_blank"
         rel="noreferrer"
-        className="group flex h-full gap-4 rounded-lg border border-hairline bg-canvas p-5 shadow-card transition duration-200 hover:border-hairline-strong hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link sm:p-6"
+        className="group flex h-full flex-col rounded-lg border border-hairline bg-canvas p-5 shadow-card transition duration-200 hover:border-hairline-strong hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link sm:p-6"
       >
-        <img
-          src={project.logo}
-          alt=""
-          width={40}
-          height={40}
-          className="h-10 w-10 shrink-0"
-          decoding="async"
-        />
+        {/* 大屏三列后卡片变窄，logo 挪到标题上方，正文才有整张卡的宽度可用 */}
+        <div className="flex items-start justify-between">
+          <img
+            src={project.logo}
+            alt=""
+            width={36}
+            height={36}
+            className="h-9 w-9 shrink-0"
+            decoding="async"
+          />
+          {/* 外链提示：静止时是灰的，hover 转 link 蓝并往右上挪一步 */}
+          <span className="text-hairline-strong transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-link">
+            <ArrowUpRight />
+          </span>
+        </div>
 
-        <div className="flex min-w-0 flex-1 flex-col">
-          {/* 展示字重的上限是 600，再粗就脱离这套设计的语气 */}
-          <h3 className="text-base font-semibold tracking-tight transition group-hover:text-link">
-            {project.name}
-          </h3>
-          <p className="mt-1 text-xs text-mute">{project.tagline}</p>
+        {/* 展示字重的上限是 600，再粗就脱离这套设计的语气 */}
+        <h3 className="mt-4 text-base font-semibold tracking-tight transition group-hover:text-link">
+          {project.name}
+        </h3>
+        <p className="mt-1 text-xs text-mute">{project.tagline}</p>
 
-          {/* 卡片内部是紧的、卡片之间是松的——DESIGN.md 的节奏就是这个方向 */}
-          <p className="mt-2 text-sm leading-relaxed text-body">{project.summary}</p>
+        {/* 卡片内部是紧的、卡片之间是松的——DESIGN.md 的节奏就是这个方向 */}
+        <p className="mt-3 mb-5 text-sm leading-relaxed text-body">{project.summary}</p>
 
-          {/* 域名走 mono —— 技术层的东西都用等宽字体说话；讲数放同一行右侧 */}
-          <div className="mt-auto flex items-baseline justify-between gap-3 pt-4 font-mono text-xs text-mute">
-            <p className="truncate transition group-hover:text-link">{project.label}</p>
-            {project.lectures ? <span className="shrink-0">{project.lectures} 讲</span> : null}
-          </div>
+        {/* 域名走 mono —— 技术层的东西都用等宽字体说话；讲数放同一行右侧 */}
+        <div className="mt-auto flex items-baseline justify-between gap-3 border-t border-hairline pt-4 font-mono text-xs text-mute">
+          <p className="truncate">{project.label}</p>
+          {project.lectures ? <span className="shrink-0">{project.lectures} 讲</span> : null}
         </div>
       </a>
     </li>
@@ -73,9 +86,13 @@ function Section({
       <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
         <h2 className="font-mono text-xs uppercase text-mute">{eyebrow}</h2>
         {note ? <p className="text-xs text-mute">{note}</p> : null}
+        <span className="ml-auto font-mono text-xs text-hairline-strong">
+          {String(projects.length).padStart(2, '0')}
+        </span>
       </div>
 
-      <ul className="mt-4 grid gap-3 lg:grid-cols-2 lg:gap-4">
+      {/* 每组都是 3 个：中屏双列会落单一张，所以直接从单列跳到三列 */}
+      <ul className="mt-4 grid gap-3 lg:grid-cols-3 lg:gap-4">
         {projects.map((project) => (
           <ProjectCard key={project.href} project={project} />
         ))}
